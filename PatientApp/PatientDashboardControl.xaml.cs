@@ -25,7 +25,7 @@ namespace PatientApp
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
-            //_viewModel.PatientRegistered += OnPatientRegistered;
+            _viewModel.PatientRegistered += OnPatientRegistered;
             grdPatients.ItemsSource = _viewModel.ConfirmedPatients;
             DashboardCompleted?.Invoke(this, EventArgs.Empty);
             this.Unloaded += (s, e) => UnsubscribeEvents();
@@ -37,14 +37,14 @@ namespace PatientApp
             DashboardCompleted=null;
         }
 
-        //private void OnPatientRegistered(object sender, string message)
-        //{
-        //    Dispatcher.Invoke(() =>
-        //    {
-        //        RegistrationStatusTextBox.Text = message;
-        //    });
+        private void OnPatientRegistered(object sender, string message)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                RegistrationStatusTextBox.Text = message;
+            });
 
-        //}
+        }
 
 
     }

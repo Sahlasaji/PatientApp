@@ -25,7 +25,8 @@ namespace PatientApp
         {
             InitializeComponent();
             _viewModel = viewModel;
-            //_viewModel.PatientRegistered += OnPatientRegistered; 
+            DataContext = _viewModel;
+            _viewModel.PatientRegistered += OnPatientRegistered;
             LoadPatients();
             this.Unloaded += (s, e) => UnsubscribeEvents();
            
@@ -37,14 +38,14 @@ namespace PatientApp
             AppointmentCompleted=null;
         }
 
-        //private void OnPatientRegistered(object sender, string message)
-        //{
-        //    Dispatcher.Invoke(() =>
-        //    {
-        //        RegistrationTextBox.Text = message;
-        //    });
+        private void OnPatientRegistered(object sender, string message)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                RegistrationTextBox.Text = message;
+            });
 
-        //}
+        }
 
         private void LoadPatients()
         {
