@@ -27,6 +27,25 @@ namespace PatientApp
             InitializeComponent();
             _viewModel = new PatientViewModel();
             _viewModel.OnPatientRegistered += OnPatientRegistered;
+            _viewModel.OnAppointmentConfirmed += OnAppointmentConfirmed;
+            this.Closed += (s,e) => UnsubscribeEvents();
+
+
+        }
+
+        private void UnsubscribeEvents()
+        {
+            _viewModel.OnPatientRegistered -= OnPatientRegistered;
+            _viewModel.OnAppointmentConfirmed -= OnAppointmentConfirmed;
+        }
+
+       
+
+        private void OnAppointmentConfirmed(object sender, Patient e)
+        {
+            MessageBox.Show("Appointment confirmed successfully.");
+
+
         }
 
         private void OnPatientRegistered(object sender, Patient patient)
@@ -43,6 +62,12 @@ namespace PatientApp
                 var appointmentControl = new AppointmentConfirmationControl(_viewModel);
                 appointmentControl.AppointmentCompleted += (s1, args1) => MainContent.Content = null;
                 MainContent.Content = appointmentControl;
+                appointmentControl.NavigateToDashboard += (s2, args2) =>
+                {
+                    var patientDashboardControl = new PatientDashboardControl(_viewModel);
+                    patientDashboardControl.DashboardCompleted += (s1, args1) => MainContent.Content = null;
+                    MainContent.Content = patientDashboardControl;
+                };
             };
             MainContent.Content = patientRegControl;
         }

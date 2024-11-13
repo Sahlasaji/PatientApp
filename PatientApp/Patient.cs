@@ -10,10 +10,10 @@ namespace PatientApp
     {
         public string Name { get; set; }
         public int Age { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         public string Address { get; set; }
         public string Slot { get; set; } 
-        public DateTime BookingDate { get; set; }
+        public string BookingDate { get; set; }
 
     }
 }

@@ -28,6 +28,15 @@ namespace PatientApp
         {
             InitializeComponent();
             _viewModel = viewModel;
+
+            this.Unloaded += (s, e)=> UnsubscribeEvents();
+            
+        }
+
+        private void UnsubscribeEvents()
+        {
+            NavigateToAppointment = null;
+            RegistrationCompleted = null;
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
@@ -35,9 +44,10 @@ namespace PatientApp
             // Input validation
             string name = NameTextBox.Text.Trim();
             string address = AddressTextBox.Text.Trim();
-            string slot = (SlotComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
             DateTime? dateOfBirth = DOBPicker.SelectedDate;
-            DateTime bookingDate = DateTime.Now;
+            string slot = (SlotComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            
+            DateTime? bookingDate = BookingDatePicker.SelectedDate;
 
             // Validate Name
             if (string.IsNullOrWhiteSpace(name))
@@ -79,10 +89,10 @@ namespace PatientApp
             {
                 Name = name,
                 Age = age,
-                DateOfBirth = dateOfBirth.Value,
+                BookingDate = DOBPicker.SelectedDate.HasValue ? DOBPicker.SelectedDate.Value.ToString("yyyy-MM-dd") :DateTime.Now.ToString("yyyy-MM-dd"),
                 Address = address,
                 Slot = slot,
-                BookingDate = bookingDate
+                DateOfBirth = BookingDatePicker.SelectedDate.Value.ToString("yyyy-MM-dd")
             };
 
             try

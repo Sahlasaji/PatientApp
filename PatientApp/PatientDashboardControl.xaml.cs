@@ -18,25 +18,34 @@ namespace PatientApp
     public partial class PatientDashboardControl : UserControl
     {
         private PatientViewModel _viewModel;
+        public event EventHandler DashboardCompleted;
 
         public PatientDashboardControl(PatientViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
-            _viewModel.PatientRegistered += OnPatientRegistered;
+            //_viewModel.PatientRegistered += OnPatientRegistered;
             grdPatients.ItemsSource = _viewModel.ConfirmedPatients;
+            DashboardCompleted?.Invoke(this, EventArgs.Empty);
+            this.Unloaded += (s, e) => UnsubscribeEvents();
+
         }
 
-        private void OnPatientRegistered(object sender, string message)
+        private void UnsubscribeEvents()
         {
-            Dispatcher.Invoke(() =>
-            {
-                RegistrationStatusTextBox.Text = message;
-            });
-           
+            DashboardCompleted=null;
         }
 
-       
+        //private void OnPatientRegistered(object sender, string message)
+        //{
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        RegistrationStatusTextBox.Text = message;
+        //    });
+
+        //}
+
+
     }
 }

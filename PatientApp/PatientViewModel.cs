@@ -10,7 +10,9 @@ namespace PatientApp
     public class PatientViewModel : IPatient
     {
         public event EventHandler<Patient> OnPatientRegistered;
-        public event EventHandler<string> PatientRegistered;
+        public event EventHandler<Patient> OnAppointmentConfirmed;
+
+        //public event EventHandler<string> PatientRegistered;
 
         public ObservableCollection<Patient> Patients { get; private set; }
         public ObservableCollection<Patient> ConfirmedPatients { get; private set; }
@@ -28,16 +30,17 @@ namespace PatientApp
             
             // Raise an event for notification
             OnPatientRegistered?.Invoke(this, patient);
-            PatientRegistered?.Invoke(this, "Registration Completed");
+            //PatientRegistered?.Invoke(this, "Registration Completed");
         }
 
         public void ConfirmPatients(List<Patient> selectedPatients)
         {
-            ConfirmedPatients.Clear();
+            //ConfirmedPatients.Clear();
             foreach (var patient in selectedPatients)
             {
                 ConfirmedPatients.Add(patient);
             }
+            OnAppointmentConfirmed?.Invoke(this,null);
         }
     }
 }

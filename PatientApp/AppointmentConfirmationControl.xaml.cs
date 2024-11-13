@@ -25,19 +25,26 @@ namespace PatientApp
         {
             InitializeComponent();
             _viewModel = viewModel;
-            _viewModel.PatientRegistered += OnPatientRegistered;
+            //_viewModel.PatientRegistered += OnPatientRegistered; 
             LoadPatients();
+            this.Unloaded += (s, e) => UnsubscribeEvents();
            
         }
 
-        private void OnPatientRegistered(object sender, string message)
+        private void UnsubscribeEvents()
         {
-            Dispatcher.Invoke(() =>
-            {
-                RegistrationTextBox.Text = message;
-            });
-            
+            NavigateToDashboard=null;
+            AppointmentCompleted=null;
         }
+
+        //private void OnPatientRegistered(object sender, string message)
+        //{
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        RegistrationTextBox.Text = message;
+        //    });
+
+        //}
 
         private void LoadPatients()
         {
@@ -45,7 +52,7 @@ namespace PatientApp
             {
                 var checkBox = new CheckBox
                 {
-                    Content = $"{patient.Name} (Age: {patient.Age}, DOB: {patient.DateOfBirth.ToShortDateString()}, Address: {patient.Address})",
+                    Content = $"{patient.Name} (Age: {patient.Age}, DOB: {patient.DateOfBirth}, Address: {patient.Address}, BookingDate:{patient.BookingDate})",
                     Tag = patient
                 };
                 PatientsListBox.Items.Add(checkBox);
@@ -71,7 +78,7 @@ namespace PatientApp
             }
 
             _viewModel.ConfirmPatients(selectedPatients);
-            MessageBox.Show("Appointment confirmed successfully.");
+            //MessageBox.Show("Appointment confirmed successfully.");
             AppointmentCompleted?.Invoke(this,EventArgs.Empty);
             NavigateToDashboard?.Invoke(this,EventArgs.Empty);
         }

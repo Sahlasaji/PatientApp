@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <TextBlock Text="Patient Dashboard" FontSize="24" FontWeight="Bold"/>
-        <TextBox x:Name="RegistrationStatusTextBox" IsReadOnly="True" Width="300" Height="30" Margin="0,10,0,10"/>
+        <!--<TextBox x:Name="RegistrationStatusTextBox" IsReadOnly="True" Width="300" Height="30" Margin="0,10,0,10"/>-->
         <DataGrid x:Name="grdPatients" ItemsSource="{Binding Patients}" AutoGenerateColumns="True"/>
     </StackPanel>
 </UserControl>
